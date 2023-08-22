@@ -1,7 +1,9 @@
 package org.example.service;
 
 import org.example.Util.HibernateUtil;
+import org.example.entity.Client;
 import org.example.entity.Planet;
+import org.example.entity.Ticket;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -9,12 +11,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 public class PlanetCrudService {
-    public static void main(String[] args) {
-        PlanetCrudService planetCrudService = new PlanetCrudService();
 
-        Planet planet = new Planet();
-        planetCrudService.createPlanet("ssddfgs","hhh");
-    }
 
     public void deletePlanet(int id){
         Transaction transaction = null;
@@ -46,11 +43,14 @@ public class PlanetCrudService {
         session.close();
     }
 
-
-
-    public List<Planet> readPlanet() {
+    public List<Planet> getALL() {
         Session session = HibernateUtil.getConfiguration().openSession();
         return session.createQuery("FROM Planet", Planet.class).list();
+    }
 
+    public Planet getIdTicket(int id){
+        Session session = HibernateUtil.getConfiguration().openSession();
+        Planet planet = session.get(Planet.class,id);
+        return planet;
     }
 }
