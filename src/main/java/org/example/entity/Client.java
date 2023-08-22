@@ -9,6 +9,7 @@ import lombok.Builder;
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JoinColumn(name = "id", referencedColumnName = "client_id",nullable = false)
     private Long id;
     private String name;
 
