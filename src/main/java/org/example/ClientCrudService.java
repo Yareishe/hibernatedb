@@ -11,6 +11,12 @@ import java.util.Objects;
 
 
 public class ClientCrudService {
+    public static void main(String[] args) {
+        ClientCrudService clientCrudService = new ClientCrudService();
+        clientCrudService.createClient(new Client("ff"));
+
+        System.out.println(clientCrudService.readClient());
+    }
 
     public void createClient(Client client){
         Session session = HibernateUtil.getConfiguration().openSession();
