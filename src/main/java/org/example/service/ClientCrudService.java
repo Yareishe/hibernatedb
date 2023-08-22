@@ -9,10 +9,7 @@ import java.util.List;
 
 
 public class ClientCrudService {
-    public static void main(String[] args) {
-        ClientCrudService clientCrudService = new ClientCrudService();
-        clientCrudService.createClient(new Client("fff"));
-    }
+
 
 
     public void createClient(Client client){
@@ -44,10 +41,14 @@ public class ClientCrudService {
         session.close();
     }
 
-
-
-    public List<Client> readClient() {
+    public List<Client> getALL() {
         Session session = HibernateUtil.getConfiguration().openSession();
             return session.createQuery("FROM Client", Client.class).list();
+    }
+
+    public Client getIdTicket(int id){
+        Session session = HibernateUtil.getConfiguration().openSession();
+        Client client = session.get(Client.class,id);
+        return client;
     }
 }
