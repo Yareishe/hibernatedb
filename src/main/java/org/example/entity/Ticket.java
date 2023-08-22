@@ -1,44 +1,30 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
+
 import java.sql.Timestamp;
+import java.util.Objects;
+
 
 @Entity
 @Table(name = "ticket")
 public class Ticket {
     @Id
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private long id;
     @Column(name = "created_at")
     private Timestamp createdAt;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "client_id", referencedColumnName = "id",nullable = false)
+    private Client client;
 
-    @Column(name = "client_id")
-    private Long clientId;
-
-    @Column(name = "from_planet_id")
-    private String fromPlanetId;
-
-    @Column(name = "to_planet_id")
-    private String toPlanetId;
-
-    public Ticket() {
-    }
-
-    public Ticket(Timestamp createdAt, Long clientId, String fromPlanetId, String toPlanetId) {
-        this.createdAt = createdAt;
-        this.clientId = clientId;
-        this.fromPlanetId = fromPlanetId;
-        this.toPlanetId = toPlanetId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "from_planet_id", referencedColumnName = "id",nullable = false)
+    private Planet fromPlanet;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "to_planet_id",referencedColumnName = "id",nullable = false)
+    private Planet toPlanet;
 
     public Timestamp getCreatedAt() {
         return createdAt;
@@ -48,27 +34,50 @@ public class Ticket {
         this.createdAt = createdAt;
     }
 
-    public Long getClientId() {
-        return clientId;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public String getFromPlanetId() {
-        return fromPlanetId;
+    public Planet getFromPlanet() {
+        return fromPlanet;
     }
 
-    public void setFromPlanetId(String fromPlanetId) {
-        this.fromPlanetId = fromPlanetId;
+    public void setFromPlanet(Planet fromPlanet) {
+        this.fromPlanet = fromPlanet;
     }
 
-    public String getToPlanetId() {
-        return toPlanetId;
+    public Planet getToPlanet() {
+        return toPlanet;
     }
 
-    public void setToPlanetId(String toPlanetId) {
-        this.toPlanetId = toPlanetId;
+    public void setToPlanet(Planet toPlanet) {
+        this.toPlanet = toPlanet;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", client=" + client +
+                ", fromPlanet=" + fromPlanet +
+                ", toPlanet=" + toPlanet +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return id == ticket.id && Objects.equals(client, ticket.client) && Objects.equals(fromPlanet, ticket.fromPlanet) && Objects.equals(toPlanet, ticket.toPlanet);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, client, fromPlanet, toPlanet);
     }
 }
