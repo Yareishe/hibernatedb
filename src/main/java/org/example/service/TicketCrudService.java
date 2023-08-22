@@ -13,11 +13,12 @@ import java.util.List;
 
 
 public class TicketCrudService {
-    private ClientCrudService clientCrudService;
-    private PlanetCrudService planetCrudService;
 
     public static void main(String[] args) {
+        TicketCrudService ticketCrudService = new TicketCrudService();
+        System.out.println(ticketCrudService.getIdTicket(1));
     }
+
     public void createTicket(Ticket ticket) {
         Session session = HibernateUtil.getConfiguration().openSession();
         Transaction transaction = session.beginTransaction();
@@ -54,15 +55,16 @@ public class TicketCrudService {
         transaction.commit();
         session.close();
     }
-    public List<Ticket> readTicket() {
+    public List<Ticket> getALL() {
         Session session = HibernateUtil.getConfiguration().openSession();
         return session.createQuery("FROM Ticket ", Ticket.class).list();
     }
 
-    private void setClient(Client client, Planet planetTo, Planet planetFrom, Ticket ticket) {
-        ticket.setClient(client);
-        ticket.setToPlanet(planetTo);
-        ticket.setFromPlanet(planetFrom);
-        ticket.setCreatedAt(new Timestamp(new Date().getTime()));
+    public Ticket getIdTicket(int id){
+        Session session = HibernateUtil.getConfiguration().openSession();
+        Ticket ticket = session.get(Ticket.class,id);
+        return ticket;
     }
+
+
 }
