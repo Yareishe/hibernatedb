@@ -1,24 +1,24 @@
 package org.example.FlyWay;
 
+import org.example.Util.PropertysLogin;
 import org.flywaydb.core.Flyway;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Properties;
 
 public class FlyWay {
 
 
 
-    public void migracia()  {
+    public FlyWay() throws IOException {
+    }
 
+    public void migracia() throws IOException {
 
+         final String url = PropertysLogin.getDatabaseUrl();
+         final String username = PropertysLogin.getDatabaseUsername();
+        final String password = PropertysLogin.getDatabasePassword();
 
-        Flyway flyway = Flyway.configure().dataSource("jdbc:h2:tcp://localhost/~/init_db", "sa",null).load();
+        Flyway flyway = Flyway.configure().dataSource(url, username,null).load();
 
         flyway.migrate();
     }
