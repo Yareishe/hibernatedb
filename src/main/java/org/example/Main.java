@@ -1,16 +1,26 @@
 package org.example;
 
-import org.flywaydb.core.Flyway;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import org.example.FlyWay.FlyWay;
+import org.example.entity.Client;
+import org.example.entity.Planet;
+import org.example.entity.Ticket;
+import org.example.service.TicketCrudService;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import java.io.IOException;
+import java.security.Timestamp;
+import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args) {
-        Main main = new Main();
+    public static void main(String[] args) throws SQLException, IOException {
+        FlyWay main = new FlyWay();
         main.migracia();
     }
 
-    public void migracia(){
-        Flyway flyway = Flyway.configure().dataSource("jdbc:h2:tcp://localhost/~/init_db", "sa",null).load();
 
-        flyway.migrate();
-    }
 }
